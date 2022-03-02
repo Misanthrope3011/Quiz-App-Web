@@ -23,7 +23,6 @@ public class SurveyGenerationHelper {
 
     public Set<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
 
-        System.out.println(categoryName.toUpperCase());
         List<Question> modifiableRepositoryCopy = categoryRepository.findByName(categoryName.toUpperCase())
                 .orElseThrow(() -> new FieldNotFoundException("Field with this name was not found"))
                 .getCategorizedQuestions();

@@ -21,6 +21,7 @@ public class Question {
     String answerD;
     String correctAnswer;
 
+    byte[] image;
     Integer answerTimeSec;
 
 }
