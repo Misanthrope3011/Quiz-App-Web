@@ -1,5 +1,6 @@
 package com.example.survey.Controller;
 
+import com.example.survey.Entities.Question;
 import com.example.survey.Exceptions.FieldNotFoundException;
 import com.example.survey.POJOs.POJO;
 import com.example.survey.Services.SurveyGenerationHelper;
@@ -20,7 +21,7 @@ public class SurveyController {
     SurveyGenerationHelper helper;
 
     @PostMapping("/generateSurvey")
-    public ResponseEntity generate(@RequestBody POJO survey ) throws FieldNotFoundException {
+    public ResponseEntity generate(@RequestBody POJO survey) throws FieldNotFoundException {
 
         return ResponseEntity.ok(helper.getQuestions(survey.getSize(), survey.getCategory()));
     }
@@ -30,4 +31,16 @@ public class SurveyController {
 
         return ResponseEntity.ok("Submited successfully");
     }
+
+    @PostMapping("/addQuestion")
+    public ResponseEntity addQuestion(@RequestBody Question question) {
+
+        return ResponseEntity.ok(helper.addQuestion(question));
+    }
+
+    @GetMapping("/getAllQuestions")
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok(helper.getAllQuestions());
+    }
+
 }

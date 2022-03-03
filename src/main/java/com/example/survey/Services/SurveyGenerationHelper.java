@@ -20,6 +20,7 @@ import java.util.Set;
 public class SurveyGenerationHelper {
 
     CategoryRepository categoryRepository;
+    QuestionRepository questionRepository;
 
     public Set<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
 
@@ -37,5 +38,16 @@ public class SurveyGenerationHelper {
 
         return surveyQuestions;
     }
+
+    public Question addQuestion(Question question) {
+
+        return questionRepository.save(question);
+    }
+
+    public List<Question> getAllQuestions() {
+
+        return questionRepository.findAll();
+    }
+
 
 }
