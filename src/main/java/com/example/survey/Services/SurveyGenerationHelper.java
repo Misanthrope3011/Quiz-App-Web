@@ -1,6 +1,5 @@
 package com.example.survey.Services;
 
-import com.example.survey.Entities.Category;
 import com.example.survey.Entities.Question;
 import com.example.survey.Exceptions.FieldNotFoundException;
 import com.example.survey.Repositories.CategoryRepository;
@@ -30,7 +29,7 @@ public class SurveyGenerationHelper {
 
         Set<Question> surveyQuestions = new HashSet<>();
 
-        for (int i = 0; i < surveySize; i++) {
+        for (int i = 0; i < surveySize && modifiableRepositoryCopy.size() > 0; i++) {
             int currentGeneratedNumber = (int) (Math.random() * modifiableRepositoryCopy.size());
             surveyQuestions.add(modifiableRepositoryCopy.get(currentGeneratedNumber));
             modifiableRepositoryCopy.remove(currentGeneratedNumber);

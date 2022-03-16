@@ -1,5 +1,6 @@
 package com.example.survey.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     List<Question> categorizedQuestions;
 }

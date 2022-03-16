@@ -1,12 +1,17 @@
 package com.example.survey.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
+@Getter
+@Setter
 public class Question {
 
     @Id
@@ -21,18 +26,19 @@ public class Question {
     @NotBlank(message = "Field is mandatory")
     private Category category;
 
-    @Size(max = 200)
+    @Size(min = 5, max = 200)
     @NotBlank(message = "Field is mandatory")
     String answerA;
     @Size(max = 200)
     @NotBlank(message = "Answer 1 is mandatory")
     String answerB;
-    @Size(max = 200)
-    String answerC;
-    @Size(max = 200)
     @NotBlank(message = "Answer 2 is mandatory")
+    @Size(min = 5, max = 200)
+    String answerC;
+    @NotBlank(message = "Answer 2 is mandatory")
+    @Size(min = 5, max = 200)
     String answerD;
-    @Size(max = 200)
+    @Size(min = 5, max = 200)
     @NotBlank(message = "Correct answer is mandatory")
     String correctAnswer;
 
@@ -40,4 +46,10 @@ public class Question {
 
     Integer answerTimeSec;
 
+    public void setImage(String image) {
+        this.image = image.getBytes();
+    }
+
+    @Transient
+    String categoryParser;
 }
