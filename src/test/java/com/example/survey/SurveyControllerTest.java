@@ -1,6 +1,5 @@
 package com.example.survey;
 
-import com.example.survey.Entities.Category;
 import com.example.survey.Entities.Question;
 import com.example.survey.Exceptions.FieldNotFoundException;
 import com.example.survey.POJOs.POJO;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 
@@ -58,9 +56,10 @@ public class SurveyControllerTest {
     public void getConfigTest() throws Exception {
 
         POJO pojo = new POJO("INNE", 10);
-        Set<Question> set = helper.getQuestions(pojo.getSize(), pojo.getCategory());
+        List<Question> set = helper.getQuestions(pojo.getSize(), pojo.getCategory());
         ObjectMapper mapper = new ObjectMapper();
 
+        
         mockMvc.perform(MockMvcRequestBuilders.post("/generateSurvey")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(pojo))

@@ -2,11 +2,11 @@ package com.example.survey.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -18,7 +18,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
+    @NotNull
     String question;
 
     @ManyToOne
@@ -38,6 +38,7 @@ public class Question {
     @NotBlank(message = "Answer 2 is mandatory")
     @Size(min = 5, max = 200)
     String answerD;
+    @JsonIgnore
     @Size(min = 5, max = 200)
     @NotBlank(message = "Correct answer is mandatory")
     String correctAnswer;
@@ -50,6 +51,8 @@ public class Question {
         this.image = image.getBytes();
     }
 
+    @JsonIgnore
     @Transient
     String categoryParser;
 }
+

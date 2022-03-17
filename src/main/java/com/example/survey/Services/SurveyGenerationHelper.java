@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,13 +23,13 @@ public class SurveyGenerationHelper {
     CategoryRepository categoryRepository;
     QuestionRepository questionRepository;
 
-    public Set<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
+    public List<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
 
         List<Question> modifiableRepositoryCopy = categoryRepository.findByName(categoryName.toUpperCase())
                 .orElseThrow(() -> new FieldNotFoundException("Field with this name was not found"))
                 .getCategorizedQuestions();
 
-        Set<Question> surveyQuestions = new HashSet<>();
+        List<Question> surveyQuestions = new ArrayList<>();
 
         for (int i = 0; i < surveySize && modifiableRepositoryCopy.size() > 0; i++) {
             int currentGeneratedNumber = (int) (Math.random() * modifiableRepositoryCopy.size());
