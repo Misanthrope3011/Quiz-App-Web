@@ -8,51 +8,62 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "SVY_QUESTIONS")
 public class Question {
 
     @Id
+    @Column(name = "qst_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    String question;
-
-    @ManyToOne
-    @JoinColumn
-    @NotBlank(message = "Field is mandatory")
-    private Category category;
+    @Column(name = "qst_content")
+    private String question;
 
     @Size(min = 5, max = 200)
     @NotBlank(message = "Field is mandatory")
-    String answerA;
+    @Column(name = "qst_answer_A")
+    private String answerA;
+
     @Size(max = 200)
     @NotBlank(message = "Answer 1 is mandatory")
-    String answerB;
+    @Column(name = "qst_answer_B")
+    private String answerB;
+
+    @Column(name = "qst_answer_C")
     @NotBlank(message = "Answer 2 is mandatory")
     @Size(min = 5, max = 200)
-    String answerC;
+    private String answerC;
+
+    @Column(name = "qst_answer_D")
     @NotBlank(message = "Answer 2 is mandatory")
     @Size(min = 5, max = 200)
-    String answerD;
+    private String answerD;
+
     @JsonIgnore
     @Size(min = 5, max = 200)
     @NotBlank(message = "Correct answer is mandatory")
-    String correctAnswer;
+    @Column(name = "qst_answer_correct")
+    private String correctAnswer;
 
-    byte[] image;
+    @Column(name = "qst_image")
+    private byte[] image;
 
-    Integer answerTimeSec;
+    @Column(name = "qst_answer_time")
+    private Integer answerTimeSec;
 
-    public void setImage(String image) {
-        this.image = image.getBytes();
-    }
+    @JoinColumn(name = "qst_category_id")
+    private Long category;
 
     @JsonIgnore
     @Transient
-    String categoryParser;
+    private String categoryParser;
+
+
 }
 
