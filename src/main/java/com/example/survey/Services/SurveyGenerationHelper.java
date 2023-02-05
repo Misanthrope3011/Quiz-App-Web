@@ -4,51 +4,50 @@ import com.example.survey.Entities.Question;
 import com.example.survey.Exceptions.FieldNotFoundException;
 import com.example.survey.Repositories.CategoryRepository;
 import com.example.survey.Repositories.QuestionRepository;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SurveyGenerationHelper {
 
-    CategoryRepository categoryRepository;
-    QuestionRepository questionRepository;
+    private final CategoryRepository categoryRepository;
+    private final QuestionRepository questionRepository;
+
+    public Question addQuestion(Question question) {
+        return questionRepository.save(question);
+    }
+
+    public List<Question> getAllQuestions() {
+        return questionRepository.findAll();
+    }
 
     public List<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
-
-        List<Question> modifiableRepositoryCopy = categoryRepository.findByName(categoryName.toUpperCase())
-                .orElseThrow(() -> new FieldNotFoundException("Field with this name was not found"))
-                .getCategorizedQuestions();
-
         List<Question> surveyQuestions = new ArrayList<>();
+        List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryName);
+        generateQuizQuestions(surveySize, surveyQuestions, modifiableRepositoryCopy);
 
+        return surveyQuestions;
+    }
+
+    private void generateQuizQuestions(long surveySize, List<Question> surveyQuestions, List<Question> modifiableRepositoryCopy) {
         for (int i = 0; i < surveySize && modifiableRepositoryCopy.size() > 0; i++) {
             int currentGeneratedNumber = (int) (Math.random() * modifiableRepositoryCopy.size());
             surveyQuestions.add(modifiableRepositoryCopy.get(currentGeneratedNumber));
             modifiableRepositoryCopy.remove(currentGeneratedNumber);
         }
-
-        return surveyQuestions;
     }
 
-    public Question addQuestion(Question question) {
-
-        return questionRepository.save(question);
+    private List<Question> getCategorizedQuestions(String categoryName) {
+        Long questionId = categoryRepository.findByName(categoryName).orElseThrow().getId();
+        return questionRepository.findAllByCategory(questionId);
     }
-
-    public List<Question> getAllQuestions() {
-
-        return questionRepository.findAll();
-    }
-
 
 }
