@@ -60,7 +60,6 @@ public class Question {
     @JoinColumn(name = "qst_category_id")
     private Long category;
 
-    @JsonIgnore
     @Transient
     private String categoryParser;
 

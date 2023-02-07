@@ -34,4 +34,8 @@ public class CategoryService {
         return questionRepository.findAllByCategory(categoryId);
     }
 
+    public Category addCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
 }

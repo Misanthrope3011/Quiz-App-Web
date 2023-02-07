@@ -26,35 +26,42 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveyGeneratorController {
 
-    private final SurveyGenerationHelper helper;
+    private final SurveyGenerationHelper generationHelper;
     private final CategoryService categoryService;
     private final SurveyService surveyService;
 
     @PostMapping("/generateSurvey")
     public ResponseEntity<List<Question>> generate(@RequestBody CategoryPOJO survey) throws FieldNotFoundException {
-        List<Question> surveyQuestions = helper.getQuestions(survey.getSize(), survey.getCategory());
+        List<Question> surveyQuestions = generationHelper.getQuestions(survey.getSize(), survey.getCategory());
 
         return ResponseEntity.ok(surveyQuestions);
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/survey/submit")
     public ResponseEntity<String> submitAnswers(@RequestBody List<AnswerDTO> userAnswers) {
         return ResponseEntity.ok(String.format("You have got %d points out of %d", surveyService.countSurveyPoints(userAnswers), userAnswers.size()));
     }
 
-    @PostMapping("/addQuestion")
+    @PostMapping("/question/add")
     public ResponseEntity<Question> addQuestionToDatabase(@RequestBody Question question) {
         question.setCategory(categoryService.getCategory(question.getCategoryParser()).getId());
 
-        return ResponseEntity.ok(helper.addQuestion(question));
+        return ResponseEntity.ok(generationHelper.addQuestion(question));
     }
 
-    @GetMapping("/getAllQuestions")
+    @PostMapping("/category/add")
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+
+        return ResponseEntity.ok(categoryService.addCategory(category));
+    }
+
+
+    @GetMapping("/questions")
     public ResponseEntity<List<Question>> getAllAvailableQuestions() {
-        return ResponseEntity.ok(helper.getAllQuestions());
+        return ResponseEntity.ok(generationHelper.getAllQuestions());
     }
 
-    @GetMapping("/getCategories")
+    @GetMapping("/categories")
     public ResponseEntity<List<Category>> getCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }

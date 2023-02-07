@@ -22,11 +22,11 @@ public class AuthConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/**")
-				.authenticated()
-				.and()
-				.httpBasic();
+		http.csrf()
+				.disable()
+				.authorizeRequests()
+				.anyRequest()
+				.permitAll();
 
 		return http.build();
 	}
