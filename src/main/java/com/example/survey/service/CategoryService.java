@@ -1,9 +1,9 @@
-package com.example.survey.Services;
+package com.example.survey.service;
 
-import com.example.survey.Entities.Category;
-import com.example.survey.Entities.Question;
-import com.example.survey.Repositories.CategoryRepository;
-import com.example.survey.Repositories.QuestionRepository;
+import com.example.survey.entities.Category;
+import com.example.survey.entities.Question;
+import com.example.survey.repository.CategoryRepository;
+import com.example.survey.repository.QuestionRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

@@ -1,6 +1,7 @@
-package com.example.survey.Entities;
+package com.example.survey.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Getter
@@ -48,6 +48,7 @@ public class Question {
     @JsonIgnore
     @Size(min = 5, max = 200)
     @NotBlank(message = "Correct answer is mandatory")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "qst_answer_correct")
     private String correctAnswer;
 
@@ -63,6 +64,8 @@ public class Question {
     @Transient
     private String categoryParser;
 
+    @Transient
+    private String userAnswer;
 
 }
 

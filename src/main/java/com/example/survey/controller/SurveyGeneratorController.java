@@ -1,13 +1,14 @@
-package com.example.survey.Controller;
+package com.example.survey.controller;
 
-import com.example.survey.Entities.Category;
-import com.example.survey.Entities.Question;
+import com.example.survey.entities.Category;
+import com.example.survey.entities.Question;
 import com.example.survey.Exceptions.FieldNotFoundException;
-import com.example.survey.POJOs.AnswerDTO;
-import com.example.survey.POJOs.CategoryPOJO;
-import com.example.survey.Services.CategoryService;
-import com.example.survey.Services.SurveyGenerationHelper;
-import com.example.survey.Services.SurveyService;
+import com.example.survey.pojo.CategoryPOJO;
+import com.example.survey.service.CategoryService;
+import com.example.survey.service.SurveyGenerationHelper;
+import com.example.survey.service.SurveyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class SurveyGeneratorController {
     private final SurveyGenerationHelper generationHelper;
     private final CategoryService categoryService;
     private final SurveyService surveyService;
+    private final ObjectMapper objectMapper;
 
     @PostMapping("/generateSurvey")
     public ResponseEntity<List<Question>> generate(@RequestBody CategoryPOJO survey) throws FieldNotFoundException {
@@ -38,8 +40,8 @@ public class SurveyGeneratorController {
     }
 
     @PostMapping("/survey/submit")
-    public ResponseEntity<String> submitAnswers(@RequestBody List<AnswerDTO> userAnswers) {
-        return ResponseEntity.ok(String.format("You have got %d points out of %d", surveyService.countSurveyPoints(userAnswers), userAnswers.size()));
+    public ResponseEntity<Object> submitAnswers(@RequestBody List<Question> userAnswers) throws JsonProcessingException {
+        return ResponseEntity.ok(objectMapper.writeValueAsString(String.format("You have got %d points out of %d", surveyService.countSurveyPoints(userAnswers), userAnswers.size())));
     }
 
     @PostMapping("/question/add")
@@ -54,7 +56,6 @@ public class SurveyGeneratorController {
 
         return ResponseEntity.ok(categoryService.addCategory(category));
     }
-
 
     @GetMapping("/questions")
     public ResponseEntity<List<Question>> getAllAvailableQuestions() {

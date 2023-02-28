@@ -1,4 +1,4 @@
-package com.example.survey.Entities;
+package com.example.survey.entities;
 
 import lombok.Getter;
 import lombok.Setter;

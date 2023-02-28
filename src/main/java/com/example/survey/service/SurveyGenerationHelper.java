@@ -1,9 +1,9 @@
-package com.example.survey.Services;
+package com.example.survey.service;
 
-import com.example.survey.Entities.Question;
+import com.example.survey.entities.Question;
 import com.example.survey.Exceptions.FieldNotFoundException;
-import com.example.survey.Repositories.CategoryRepository;
-import com.example.survey.Repositories.QuestionRepository;
+import com.example.survey.repository.CategoryRepository;
+import com.example.survey.repository.QuestionRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class SurveyGenerationHelper {
         return questionRepository.findAll();
     }
 
-    public List<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
+    public List<Question> getQuestions(long surveySize, String categoryName) {
         List<Question> surveyQuestions = new ArrayList<>();
         List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryName);
         generateQuizQuestions(surveySize, surveyQuestions, modifiableRepositoryCopy);
@@ -47,6 +47,7 @@ public class SurveyGenerationHelper {
 
     private List<Question> getCategorizedQuestions(String categoryName) {
         Long questionId = categoryRepository.findByName(categoryName).orElseThrow().getId();
+
         return questionRepository.findAllByCategory(questionId);
     }
 

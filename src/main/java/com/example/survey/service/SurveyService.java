@@ -1,11 +1,9 @@
-package com.example.survey.Services;
+package com.example.survey.service;
 
-import com.example.survey.Entities.Question;
-import com.example.survey.POJOs.AnswerDTO;
-import com.example.survey.Repositories.QuestionRepository;
+import com.example.survey.entities.Question;
+import com.example.survey.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +14,7 @@ public class SurveyService {
 
 	private final QuestionRepository questionRepository;
 
-	public Long countSurveyPoints(List<AnswerDTO> submittedAnswers) {
+	public Long countSurveyPoints(List<Question> submittedAnswers) {
 
 		return submittedAnswers.stream()
 				.map(this::mapToPairQuestionAndUserAnswer)
@@ -24,7 +22,7 @@ public class SurveyService {
 				.count();
 	}
 
-	private Pair<Question, String> mapToPairQuestionAndUserAnswer(AnswerDTO answer) {
+	private Pair<Question, String> mapToPairQuestionAndUserAnswer(Question answer) {
 		return Pair.of(questionRepository.findById(answer.getId()).orElseThrow(), answer.getUserAnswer());
 	}
 

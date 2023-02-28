@@ -1,7 +1,7 @@
-package com.example.survey.Repositories;
+package com.example.survey.repository;
 
 
-import com.example.survey.Entities.Category;
+import com.example.survey.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.example.survey.POJOs;
+package com.example.survey.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
