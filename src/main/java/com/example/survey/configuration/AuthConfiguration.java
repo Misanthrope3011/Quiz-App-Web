@@ -25,8 +25,9 @@ public class AuthConfiguration implements WebMvcConfigurer {
 		http.csrf()
 				.disable()
 				.authorizeRequests()
-				.anyRequest()
-				.permitAll();
+				.and()
+				.oauth2ResourceServer()
+				.jwt();
 
 		return http.build();
 	}
