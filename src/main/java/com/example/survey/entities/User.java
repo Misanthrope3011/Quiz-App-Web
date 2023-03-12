@@ -45,6 +45,10 @@ public class User implements UserDetails {
 	@Column(name = "usr_points")
 	private Long points;
 
+	@Column(name = "usr_email")
+	private String email;
+
+
 	@Enumerated(value = EnumType.STRING)
 	@OneToMany
 	@JoinColumn(name = "prv_usr_id", referencedColumnName = "usr_id")

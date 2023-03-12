@@ -1,6 +1,5 @@
 package com.example.survey.controller;
 
-import com.example.survey.Exceptions.FieldNotFoundException;
 import com.example.survey.entities.Category;
 import com.example.survey.entities.Question;
 import com.example.survey.pojo.CategoryPOJO;
@@ -33,7 +32,7 @@ public class SurveyGeneratorController {
     private final ObjectMapper objectMapper;
 
     @PostMapping("/generateSurvey")
-    public ResponseEntity<List<Question>> generate(@RequestBody CategoryPOJO survey) throws FieldNotFoundException {
+    public ResponseEntity<List<Question>> generate(@RequestBody CategoryPOJO survey)  {
         List<Question> surveyQuestions = generationHelper.getQuestions(survey.getSize(), survey.getCategory());
 
         return ResponseEntity.ok(surveyQuestions);
@@ -49,6 +48,17 @@ public class SurveyGeneratorController {
         question.setCategory(categoryService.getCategory(question.getCategoryParser()).getId());
 
         return ResponseEntity.ok(generationHelper.addQuestion(question));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationRequest> authenticationPoint(@RequestBody AuthenticationRequest request) {
+
+        return ResponseEntity.ok(request);
     }
 
     @PostMapping("/category/add")

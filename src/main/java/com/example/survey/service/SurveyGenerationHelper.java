@@ -1,7 +1,6 @@
 package com.example.survey.service;
 
 import com.example.survey.entities.Question;
-import com.example.survey.Exceptions.FieldNotFoundException;
 import com.example.survey.repository.CategoryRepository;
 import com.example.survey.repository.QuestionRepository;
 import lombok.Getter;
