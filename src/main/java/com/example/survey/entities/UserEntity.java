@@ -1,10 +1,16 @@
 package com.example.survey.entities;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,17 +22,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "SVY_USERS")
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "usr_id")
 	private Long id;
 
@@ -50,12 +58,12 @@ public class User implements UserDetails {
 
 
 	@Enumerated(value = EnumType.STRING)
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "prv_usr_id", referencedColumnName = "usr_id")
 	private List<UserRoles> roles;
 
-	private boolean isExpired = false;
-	private boolean isLocked = false;
+	private boolean isExpired = true;
+	private boolean isLocked = true;
 	private boolean isEnabled = true;
 	private boolean isCredentialsExpired = false;
 

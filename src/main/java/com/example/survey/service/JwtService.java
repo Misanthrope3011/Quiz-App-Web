@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -18,7 +19,6 @@ import java.util.function.Function;
 @Getter
 public class JwtService {
 
-	public static final String KEY_GENERATOR = "";
 	public static final long TOKEN_VALIDITY_TIME = 1000 * 60 * 24;
 
 	public String extractUserNameFromTokenString(String token) {
@@ -40,8 +40,11 @@ public class JwtService {
 	}
 
 	private Key getSigningKey() {
-		byte[] keyBytes = Decoders.BASE64.decode(KEY_GENERATOR);
-		return Keys.hmacShaKeyFor(keyBytes);
+		return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+	}
+
+	public String generateToken(UserDetails userDetails) {
+		return generateToken(Collections.emptyMap(), userDetails);
 	}
 
 	public String generateToken(Map<String, Object> extractedClaims, UserDetails userDetails) {
@@ -50,7 +53,7 @@ public class JwtService {
 				.setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_TIME))
-				.signWith(getSigningKey(), SignatureAlgorithm.HS256)
+				.signWith(getSigningKey(), SignatureAlgorithm.HS512)
 				.compact();
 	}
 

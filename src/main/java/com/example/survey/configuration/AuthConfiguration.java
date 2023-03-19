@@ -33,10 +33,13 @@ public class AuthConfiguration implements WebMvcConfigurer {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf()
 				.disable()
-				.authorizeRequests()
-				.anyRequest()
-				.permitAll()
-				.and()
+				.authorizeHttpRequests(requests ->
+				{
+					requests.antMatchers("/register/**", "/authenticate/**")
+							.permitAll()
+							.anyRequest()
+							.authenticated();
+				})
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()

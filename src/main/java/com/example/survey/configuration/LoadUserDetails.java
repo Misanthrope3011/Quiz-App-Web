@@ -20,7 +20,7 @@ public class LoadUserDetails {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		return email -> userRepository.findByEmail(email).orElseThrow();
+		return email -> userRepository.findByUsername(email).orElseThrow();
 	}
 
 	@Bean
