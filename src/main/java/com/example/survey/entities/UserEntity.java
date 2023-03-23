@@ -62,8 +62,8 @@ public class UserEntity implements UserDetails {
 	@JoinColumn(name = "prv_usr_id", referencedColumnName = "usr_id")
 	private List<UserRoles> roles;
 
-	private boolean isExpired = true;
-	private boolean isLocked = true;
+	private boolean isExpired = false;
+	private boolean isLocked = false;
 	private boolean isEnabled = true;
 	private boolean isCredentialsExpired = false;
 
@@ -84,17 +84,17 @@ public class UserEntity implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return isExpired;
+		return !isExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return isLocked;
+		return !isLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return isCredentialsExpired;
+		return !isCredentialsExpired;
 	}
 
 	@Override

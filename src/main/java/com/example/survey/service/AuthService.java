@@ -27,6 +27,7 @@ public class AuthService {
 		UserEntity user = UserEntity.builder()
 				.username(request.getUsername())
 				.password(passwordEncoder.encode(request.getPassword()))
+				.isEnabled(Boolean.TRUE)
 				.roles(Collections.singletonList(new UserRoles(Roles.USER)))
 				.build();
 
