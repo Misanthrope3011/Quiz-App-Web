@@ -1,6 +1,6 @@
 package com.example.survey.service;
 
-import com.example.survey.controller.AuthenticationRequest;
+import com.example.survey.dto.AuthenticationRequest;
 import com.example.survey.controller.RegisterRequest;
 import com.example.survey.dto.UserDTO;
 import com.example.survey.entities.Roles;

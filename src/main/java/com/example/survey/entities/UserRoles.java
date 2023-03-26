@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class UserRoles implements GrantedAuthority {
 
 	@Id
-	@Column(name = "usp_usr_id")
+	@Column(name = "usp_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

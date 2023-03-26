@@ -21,15 +21,15 @@ public class CategoryService {
     private final QuestionRepository questionRepository;
 
     public Category getCategory(String name) {
-        return categoryRepository.findByName(name).orElseThrow();
+        return categoryRepository.findByCode(name).orElseThrow();
     }
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    public List<Question> getQuestionsByCategory(String name) {
-        Long categoryId = categoryRepository.findByName(name).orElseThrow().getId();
+    public List<Question> getQuestionsByCategory(String code) {
+        Long categoryId = categoryRepository.findByCode(code).orElseThrow().getId();
 
         return questionRepository.findAllByCategory(categoryId);
     }

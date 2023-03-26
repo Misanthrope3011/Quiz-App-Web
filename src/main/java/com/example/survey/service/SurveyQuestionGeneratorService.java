@@ -20,9 +20,9 @@ public class SurveyQuestionGeneratorService {
     private final CategoryRepository categoryRepository;
     private final QuestionRepository questionRepository;
 
-    public List<Question> getQuestions(long surveySize, String categoryName) {
+    public List<Question> getQuestions(long surveySize, String categoryCode) {
         List<Question> surveyQuestions = new ArrayList<>();
-        List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryName);
+        List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryCode);
         generateQuizQuestions(surveySize, surveyQuestions, modifiableRepositoryCopy);
 
         return surveyQuestions;
@@ -37,7 +37,7 @@ public class SurveyQuestionGeneratorService {
     }
 
     private List<Question> getCategorizedQuestions(String categoryName) {
-        Long questionId = categoryRepository.findByName(categoryName).orElseThrow().getId();
+        Long questionId = categoryRepository.findByCode(categoryName).orElseThrow().getId();
 
         return questionRepository.findAllByCategory(questionId);
     }

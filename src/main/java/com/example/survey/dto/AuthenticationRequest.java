@@ -1,4 +1,4 @@
-package com.example.survey.controller;
+package com.example.survey.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

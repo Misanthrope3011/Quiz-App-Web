@@ -45,7 +45,6 @@ public class Question {
     @Size(min = 5, max = 200)
     private String answerD;
 
-    @JsonIgnore
     @Size(min = 5, max = 200)
     @NotBlank(message = "Correct answer is mandatory")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

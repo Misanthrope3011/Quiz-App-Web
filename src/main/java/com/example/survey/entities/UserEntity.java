@@ -60,7 +60,7 @@ public class UserEntity implements UserDetails {
 
 	@Enumerated(value = EnumType.STRING)
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "prv_usr_id", referencedColumnName = "usr_id")
+	@JoinColumn(name = "usp_usr_id", referencedColumnName = "usr_id")
 	private List<UserRoles> roles;
 
 	private boolean isExpired = false;
