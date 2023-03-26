@@ -1,5 +1,6 @@
 package com.example.survey.configuration;
 
+import com.example.survey.entities.Roles;
 import com.example.survey.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -39,9 +40,9 @@ public class AuthConfiguration implements WebMvcConfigurer {
 				{
 					requests.antMatchers("/register/**", "/authenticate/**")
 							.permitAll()
-							.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-							.anyRequest()
-							.authenticated();
+							.antMatchers(HttpMethod.OPTIONS).permitAll()
+							.antMatchers("/user/**").hasAnyAuthority(Roles.USER.getAuthority())
+							.anyRequest().hasAnyAuthority(Roles.ADMIN.getAuthority());
 				})
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

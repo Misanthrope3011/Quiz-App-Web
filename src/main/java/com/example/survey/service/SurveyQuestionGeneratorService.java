@@ -20,14 +20,6 @@ public class SurveyQuestionGeneratorService {
     private final CategoryRepository categoryRepository;
     private final QuestionRepository questionRepository;
 
-    public Question addQuestion(Question question) {
-        return questionRepository.save(question);
-    }
-
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
-    }
-
     public List<Question> getQuestions(long surveySize, String categoryName) {
         List<Question> surveyQuestions = new ArrayList<>();
         List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryName);

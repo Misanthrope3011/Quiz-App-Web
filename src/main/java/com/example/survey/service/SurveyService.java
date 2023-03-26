@@ -26,4 +26,12 @@ public class SurveyService {
 		return Pair.of(questionRepository.findById(answer.getId()).orElseThrow(), answer.getUserAnswer());
 	}
 
+	public Question addQuestion(Question question) {
+		return questionRepository.save(question);
+	}
+
+	public List<Question> getAllQuestions() {
+		return questionRepository.findAll();
+	}
+
 }
