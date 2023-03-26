@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SurveyGenerationHelper {
+public class SurveyQuestionGeneratorService {
 
     private final CategoryRepository categoryRepository;
     private final QuestionRepository questionRepository;

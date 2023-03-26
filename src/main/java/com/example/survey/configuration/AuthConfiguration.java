@@ -4,6 +4,7 @@ import com.example.survey.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ public class AuthConfiguration implements WebMvcConfigurer {
 		registry.addMapping("/**")
 				.allowedOrigins("http://localhost:4200")
 				.allowedMethods("GET", "POST", "PUT", "DELETE")
+				.allowedHeaders("HTTP/1.1 200 OK", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With", "requestId", "Correlation-Id")
 				.allowCredentials(true);
 	}
 
@@ -37,6 +39,7 @@ public class AuthConfiguration implements WebMvcConfigurer {
 				{
 					requests.antMatchers("/register/**", "/authenticate/**")
 							.permitAll()
+							.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 							.anyRequest()
 							.authenticated();
 				})

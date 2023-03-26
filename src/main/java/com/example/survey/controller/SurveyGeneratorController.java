@@ -1,12 +1,12 @@
 package com.example.survey.controller;
 
+import com.example.survey.dto.UserDTO;
 import com.example.survey.entities.Category;
 import com.example.survey.entities.Question;
 import com.example.survey.pojo.CategoryPOJO;
 import com.example.survey.service.AuthService;
-import com.example.survey.service.AuthenticationResponse;
 import com.example.survey.service.CategoryService;
-import com.example.survey.service.SurveyGenerationHelper;
+import com.example.survey.service.SurveyQuestionGeneratorService;
 import com.example.survey.service.SurveyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveyGeneratorController {
 
-	private final SurveyGenerationHelper generationHelper;
+	private final SurveyQuestionGeneratorService generationHelper;
 	private final AuthService authService;
 	private final CategoryService categoryService;
 	private final SurveyService surveyService;
@@ -54,12 +54,12 @@ public class SurveyGeneratorController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<com.example.survey.service.AuthenticationResponse> register(@RequestBody @Validated RegisterRequest request) {
+	public ResponseEntity<UserDTO> register(@RequestBody @Validated RegisterRequest request) {
 		return ResponseEntity.ok(authService.register(request));
 	}
 
 	@PostMapping("/authenticate")
-	public ResponseEntity<AuthenticationResponse> authenticationPoint(@RequestBody AuthenticationRequest request) {
+	public ResponseEntity<UserDTO> authenticationPoint(@RequestBody AuthenticationRequest request) {
 
 		return ResponseEntity.ok(authService.authenticate(request));
 	}

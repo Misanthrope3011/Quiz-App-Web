@@ -3,12 +3,14 @@ package com.example.survey.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
@@ -28,9 +30,9 @@ public class JwtService {
 	private Claims extractClaims(String token) {
 		return Jwts
 				.parserBuilder()
-				.setSigningKey(getSigningKey())
+				.setSigningKey(generateKey())
 				.build()
-				.parseClaimsJwt(token)
+				.parseClaimsJws(token)
 				.getBody();
 	}
 
@@ -39,8 +41,18 @@ public class JwtService {
 		return claimsResolver.apply(claims);
 	}
 
-	private Key getSigningKey() {
-		return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+	public Key generateKey() {
+		String signInKeyValue = "SIGNINGVALUE";
+		byte[] fixedBites = new byte[32];
+		byte[] keyBytes = signInKeyValue.getBytes();
+
+		for (int i = 0; i < 32; i++) {
+			if(i < keyBytes.length)
+				fixedBites[i] = keyBytes[i];
+			else fixedBites[i] = 0;
+		}
+
+		return new SecretKeySpec(fixedBites, "HmacSHA256");
 	}
 
 	public String generateToken(UserDetails userDetails) {
@@ -53,18 +65,18 @@ public class JwtService {
 				.setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_TIME))
-				.signWith(getSigningKey(), SignatureAlgorithm.HS512)
+				.signWith(generateKey(), SignatureAlgorithm.HS256)
 				.compact();
 	}
 
 	public boolean isTokenValid(String token, UserDetails userDetails) {
 		final String username = extractUserNameFromTokenString(token);
 
-		return username.equals(userDetails.getUsername());
+		return username.equals(userDetails.getUsername()) && isTokenExpired(token);
 	}
 
 	private boolean isTokenExpired(String token) {
-		return extractExpiration(token).before(new Date());
+		return extractExpiration(token).after(new Date());
 	}
 
 	private Date extractExpiration(String token) {
