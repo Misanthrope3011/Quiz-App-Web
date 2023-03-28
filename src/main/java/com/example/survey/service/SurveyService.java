@@ -15,7 +15,6 @@ public class SurveyService {
 	private final QuestionRepository questionRepository;
 
 	public Long countSurveyPoints(List<Question> submittedAnswers) {
-
 		return submittedAnswers.stream()
 				.map(this::mapToPairQuestionAndUserAnswer)
 				.filter(pair -> pair.getFirst().getCorrectAnswer().equals(pair.getSecond()))

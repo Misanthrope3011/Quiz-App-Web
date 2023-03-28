@@ -1,8 +1,7 @@
-package com.example.survey.dto;
+package com.example.survey.pojo;
 
 import com.example.survey.entities.UserRoles;
 import lombok.Data;
-import lombok.Setter;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.example.survey.mappers;
 
 import com.example.survey.entities.UserEntity;
-import com.example.survey.dto.UserDTO;
+import com.example.survey.pojo.UserDTO;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

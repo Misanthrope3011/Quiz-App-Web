@@ -1,4 +1,4 @@
-package com.example.survey.dto;
+package com.example.survey.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

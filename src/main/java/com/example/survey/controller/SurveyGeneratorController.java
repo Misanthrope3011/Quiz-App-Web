@@ -1,7 +1,7 @@
 package com.example.survey.controller;
 
-import com.example.survey.dto.AuthenticationRequest;
-import com.example.survey.dto.UserDTO;
+import com.example.survey.response.AuthenticationRequest;
+import com.example.survey.pojo.UserDTO;
 import com.example.survey.service.AuthService;
 import com.example.survey.service.SurveyService;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 package com.example.survey.service;
 
-import com.example.survey.dto.AuthenticationRequest;
+import com.example.survey.response.AuthenticationRequest;
 import com.example.survey.controller.RegisterRequest;
-import com.example.survey.dto.UserDTO;
+import com.example.survey.pojo.UserDTO;
 import com.example.survey.entities.Roles;
 import com.example.survey.entities.UserEntity;
 import com.example.survey.entities.UserRoles;

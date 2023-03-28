@@ -1,15 +1,14 @@
 package com.example.survey.service;
 
+import com.example.survey.exceptions.ApplicationException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Collections;
@@ -24,21 +23,21 @@ public class JwtService {
 	public static final long TOKEN_VALIDITY_TIME = 1000 * 60 * 24;
 
 	public String extractUserNameFromTokenString(String token) {
-		return extractClaim(token, Claims::getSubject);
+			return extractClaim(token, Claims::getSubject);
 	}
 
 	private Claims extractClaims(String token) {
-		return Jwts
-				.parserBuilder()
-				.setSigningKey(generateKey())
-				.build()
-				.parseClaimsJws(token)
-				.getBody();
+			return Jwts
+					.parserBuilder()
+					.setSigningKey(generateKey())
+					.build()
+					.parseClaimsJws(token)
+					.getBody();
 	}
 
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-		Claims claims = extractClaims(token);
-		return claimsResolver.apply(claims);
+			Claims claims = extractClaims(token);
+			return claimsResolver.apply(claims);
 	}
 
 	public Key generateKey() {
@@ -72,10 +71,10 @@ public class JwtService {
 	public boolean isTokenValid(String token, UserDetails userDetails) {
 		final String username = extractUserNameFromTokenString(token);
 
-		return username.equals(userDetails.getUsername()) && isTokenExpired(token);
+		return username.equals(userDetails.getUsername());
 	}
 
-	private boolean isTokenExpired(String token) {
+	public boolean isTokenExpired(String token) {
 		return extractExpiration(token).after(new Date());
 	}
 
