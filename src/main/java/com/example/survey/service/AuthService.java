@@ -1,7 +1,7 @@
 package com.example.survey.service;
 
 import com.example.survey.response.AuthenticationRequest;
-import com.example.survey.controller.RegisterRequest;
+import com.example.survey.pojo.RegisterRequest;
 import com.example.survey.pojo.UserDTO;
 import com.example.survey.entities.Roles;
 import com.example.survey.entities.UserEntity;
@@ -20,6 +20,7 @@ import java.util.Collections;
 @Service
 public class AuthService {
 
+	public static final long TOKEN_VALIDITY_TIME = 1000 * 60 * 15;
 	private final AuthenticationManager authenticationManager;
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -34,9 +35,9 @@ public class AuthService {
 				.build();
 
 		userRepository.save(user);
-		String token = jwtService.generateToken(user);
+		String accessToken = jwtService.generateToken(user,TOKEN_VALIDITY_TIME);
 
-		return buildAuthResponse(token, user);
+		return buildAuthResponse(null, accessToken, user);
 	}
 
 	public UserDTO authenticate(AuthenticationRequest request) {
@@ -45,14 +46,16 @@ public class AuthService {
 		));
 
 		var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
-		String token = jwtService.generateToken(user);
+		String token = jwtService.generateToken(user, TOKEN_VALIDITY_TIME);
+		String refreshToken = jwtService.generateToken(user, TOKEN_VALIDITY_TIME * 10);
 
-		return buildAuthResponse(token, user);
+		return buildAuthResponse(refreshToken, token, user);
 	}
 
-	private static UserDTO buildAuthResponse(String token, UserEntity entity) {
+	private static UserDTO buildAuthResponse(String refreshToken, String accessToken, UserEntity entity) {
 		UserDTO userDTO = UserMapper.INSTANCE.userToDTO(entity);
-		userDTO.setToken(token);
+		userDTO.setAccessToken(accessToken);
+		userDTO.setRefreshToken(refreshToken);
 		userDTO.setUserRoles(entity.getRoles());
 
 		return userDTO;

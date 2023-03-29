@@ -7,6 +7,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,10 @@ public class SurveyService {
 
 	public List<Question> getAllQuestions() {
 		return questionRepository.findAll();
+	}
+
+	public Optional<Question> getQuestionById(Long id) {
+		return questionRepository.findById(id);
 	}
 
 }

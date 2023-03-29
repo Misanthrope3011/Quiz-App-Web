@@ -1,5 +1,6 @@
 package com.example.survey.service;
 
+import com.example.survey.entities.Category;
 import com.example.survey.entities.Question;
 import com.example.survey.repository.CategoryRepository;
 import com.example.survey.repository.QuestionRepository;
@@ -36,10 +37,10 @@ public class SurveyQuestionGeneratorService {
         }
     }
 
-    private List<Question> getCategorizedQuestions(String categoryName) {
-        Long questionId = categoryRepository.findByCode(categoryName).orElseThrow().getId();
+    public List<Question> getCategorizedQuestions(String categoryName) {
+        Category category = categoryRepository.findByCode(categoryName).orElseThrow();
 
-        return questionRepository.findAllByCategory(questionId);
+        return questionRepository.findAllByCategory(category);
     }
 
 }

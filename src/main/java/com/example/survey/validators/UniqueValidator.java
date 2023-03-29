@@ -1,6 +1,6 @@
 package com.example.survey.validators;
 
-import com.example.survey.controller.RegisterRequest;
+import com.example.survey.pojo.RegisterRequest;
 import com.example.survey.entities.UserEntity;
 import com.example.survey.repository.UserRepository;
 import com.example.survey.validators.annotation.UniqueUser;

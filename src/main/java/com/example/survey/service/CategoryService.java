@@ -20,8 +20,8 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final QuestionRepository questionRepository;
 
-    public Category getCategory(String name) {
-        return categoryRepository.findByCode(name).orElseThrow();
+    public Category getCategory(String code) {
+        return categoryRepository.findByCode(code).orElseThrow();
     }
 
     public List<Category> getAllCategories() {
@@ -29,9 +29,9 @@ public class CategoryService {
     }
 
     public List<Question> getQuestionsByCategory(String code) {
-        Long categoryId = categoryRepository.findByCode(code).orElseThrow().getId();
+        Category category = categoryRepository.findByCode(code).orElseThrow();
 
-        return questionRepository.findAllByCategory(categoryId);
+        return questionRepository.findAllByCategory(category);
     }
 
     public Category addCategory(Category category) {

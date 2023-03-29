@@ -1,15 +1,16 @@
 package com.example.survey.service;
 
-import com.example.survey.exceptions.ApplicationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
@@ -18,9 +19,9 @@ import java.util.function.Function;
 
 @Service
 @Getter
+@Slf4j
 public class JwtService {
 
-	public static final long TOKEN_VALIDITY_TIME = 1000 * 60 * 24;
 
 	public String extractUserNameFromTokenString(String token) {
 			return extractClaim(token, Claims::getSubject);
@@ -54,16 +55,16 @@ public class JwtService {
 		return new SecretKeySpec(fixedBites, "HmacSHA256");
 	}
 
-	public String generateToken(UserDetails userDetails) {
-		return generateToken(Collections.emptyMap(), userDetails);
+	public String generateToken(UserDetails userDetails, long validityTime) {
+		return generateToken(Collections.emptyMap(), userDetails, validityTime);
 	}
 
-	public String generateToken(Map<String, Object> extractedClaims, UserDetails userDetails) {
+	public String generateToken(Map<String, Object> extractedClaims, UserDetails userDetails, long validityTime) {
 		return Jwts.builder()
 				.setClaims(extractedClaims)
 				.setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_TIME))
+				.setExpiration(new Date(System.currentTimeMillis() + validityTime))
 				.signWith(generateKey(), SignatureAlgorithm.HS256)
 				.compact();
 	}

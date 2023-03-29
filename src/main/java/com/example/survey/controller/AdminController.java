@@ -6,8 +6,11 @@ import com.example.survey.service.CategoryService;
 import com.example.survey.service.SurveyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +31,25 @@ public class AdminController {
 		return ResponseEntity.ok(categoryService.addCategory(category));
 	}
 
+	@PostMapping("/questions/category/{code}")
+	public ResponseEntity<List<Question>> getCategoryQuestions(@PathVariable String code) {
+
+		return ResponseEntity.ok(categoryService.getQuestionsByCategory(code));
+	}
+
 	@PostMapping("/question/add")
 	public ResponseEntity<Question> addQuestionToDatabase(@RequestBody Question question) {
-		question.setCategory(categoryService.getCategory(question.getCategoryParser()).getId());
+		categoryService.getCategory(question.getCategoryCode());
 
 		return ResponseEntity.ok(surveyService.addQuestion(question));
+	}
+
+	@PutMapping("/question/{id}/edit")
+	public ResponseEntity<Question> editQuestion(@PathVariable Long id, @RequestBody Question question) {
+		if(surveyService.getQuestionById(id).isPresent()) {
+			return ResponseEntity.ok(surveyService.addQuestion(question));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@GetMapping("/questions")
@@ -40,9 +57,18 @@ public class AdminController {
 		return ResponseEntity.ok(surveyService.getAllQuestions());
 	}
 
-	@GetMapping("/categories")
-	public ResponseEntity<List<Category>> getCategories() {
-		return ResponseEntity.ok(categoryService.getAllCategories());
+	@DeleteMapping("/question/{id}/delete")
+	public ResponseEntity<List<Question>> deleteQuestion() {
+		return ResponseEntity.ok(surveyService.getAllQuestions());
+	}
+
+
+	@GetMapping("/question/{id}")
+	public ResponseEntity <Question>getQuestionById(@PathVariable Long id) {
+		if(surveyService.getQuestionById(id).isPresent()) {
+			return ResponseEntity.ok(surveyService.getQuestionById(id).get());
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 }

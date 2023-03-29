@@ -1,5 +1,6 @@
 package com.example.survey.controller;
 
+import com.example.survey.pojo.RegisterRequest;
 import com.example.survey.response.AuthenticationRequest;
 import com.example.survey.pojo.UserDTO;
 import com.example.survey.service.AuthService;

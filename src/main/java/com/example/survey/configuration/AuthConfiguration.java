@@ -27,7 +27,7 @@ public class AuthConfiguration implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
 				.allowedOrigins("http://localhost:4200")
-				.allowedMethods("GET", "POST", "PUT", "DELETE")
+				.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 				.allowedHeaders("HTTP/1.1 200 OK", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With", "requestId", "Correlation-Id")
 				.allowCredentials(true);
 	}

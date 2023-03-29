@@ -1,4 +1,4 @@
-package com.example.survey.controller;
+package com.example.survey.pojo;
 
 import com.example.survey.validators.annotation.UniqueUser;
 import lombok.AllArgsConstructor;

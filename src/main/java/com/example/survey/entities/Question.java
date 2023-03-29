@@ -1,6 +1,5 @@
 package com.example.survey.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +46,6 @@ public class Question {
 
     @Size(min = 5, max = 200)
     @NotBlank(message = "Correct answer is mandatory")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "qst_answer_correct")
     private String correctAnswer;
 
@@ -57,11 +55,12 @@ public class Question {
     @Column(name = "qst_answer_time")
     private Integer answerTimeSec;
 
-    @JoinColumn(name = "qst_category_id")
-    private Long category;
+    @OneToOne
+    @JoinColumn(name = "qst_category_id", referencedColumnName = "id")
+    private Category category;
 
     @Transient
-    private String categoryParser;
+    private String categoryCode;
 
     @Transient
     private String userAnswer;
