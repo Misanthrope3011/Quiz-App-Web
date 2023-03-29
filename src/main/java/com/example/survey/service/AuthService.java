@@ -20,7 +20,7 @@ import java.util.Collections;
 @Service
 public class AuthService {
 
-	public static final long TOKEN_VALIDITY_TIME = 1000 * 60 * 15;
+	public static final long TOKEN_VALIDITY_TIME = 1000 * 60 * 60;
 	private final AuthenticationManager authenticationManager;
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
