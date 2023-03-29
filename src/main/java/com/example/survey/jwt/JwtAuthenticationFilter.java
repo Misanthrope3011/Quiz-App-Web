@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Slf4j
+
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -54,7 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			log.warn(expiredMsg);
 			final String msg = (expiredMsg != null) ? expiredMsg : "Unauthorized";
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
-
 		}
 
 

@@ -41,7 +41,7 @@ public class AuthConfiguration implements WebMvcConfigurer {
 					requests.antMatchers("/register/**", "/authenticate/**")
 							.permitAll()
 							.antMatchers(HttpMethod.OPTIONS).permitAll()
-							.antMatchers("/user/**").hasAnyAuthority(Roles.USER.getAuthority())
+							.antMatchers("/user/**").hasAnyAuthority(Roles.USER.getAuthority(), Roles.ADMIN.getAuthority())
 							.anyRequest().hasAuthority(Roles.ADMIN.getAuthority());
 				})
 				.sessionManagement()
