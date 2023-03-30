@@ -39,7 +39,7 @@ public class AdminController {
 
 	@PostMapping("/question/add")
 	public ResponseEntity<Question> addQuestionToDatabase(@RequestBody Question question) {
-		categoryService.getCategory(question.getCategoryCode());
+		categoryService.getCategory(question.getCategory().getCode());
 
 		return ResponseEntity.ok(surveyService.addQuestion(question));
 	}
@@ -58,8 +58,9 @@ public class AdminController {
 	}
 
 	@DeleteMapping("/question/{id}/delete")
-	public ResponseEntity<List<Question>> deleteQuestion() {
-		return ResponseEntity.ok(surveyService.getAllQuestions());
+	public ResponseEntity<List<Question>> deleteQuestion(@PathVariable Long id) {
+		surveyService.deleteQuestion(id);
+		return ResponseEntity.noContent().build();
 	}
 
 

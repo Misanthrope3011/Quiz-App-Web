@@ -38,4 +38,8 @@ public class SurveyService {
 		return questionRepository.findById(id);
 	}
 
+	public void deleteQuestion(Long id) {
+		questionRepository.deleteById(id);
+	}
+
 }
