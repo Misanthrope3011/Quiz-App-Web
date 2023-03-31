@@ -1,14 +1,14 @@
-package com.example.survey.Repositories;
+package com.example.survey.repository;
 
-import com.example.survey.Entities.Question;
+import com.example.survey.entities.Category;
+import com.example.survey.entities.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-	List<Question> findAllByCategory(Long id);
+	List<Question> findAllByCategory(Category category);
 
 }

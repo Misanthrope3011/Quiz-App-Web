@@ -1,4 +1,4 @@
-package com.example.survey.Entities;
+package com.example.survey.entities;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "SVY_CATEGORY")
@@ -21,6 +22,15 @@ public class Category {
     private Long id;
 
     @NotBlank(message = "Category name is mandatory")
+    @Size(min = 2)
     private String name;
+
+    @NotBlank(message = "Code is mandatory")
+    @Size(min = 2)
+    private String code;
+
+    @NotBlank(message = "Description is mandatory")
+    @Size(min = 10)
+    private String description;
 
 }

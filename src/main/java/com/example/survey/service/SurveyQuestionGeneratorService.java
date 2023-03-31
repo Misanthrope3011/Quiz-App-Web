@@ -1,9 +1,9 @@
-package com.example.survey.Services;
+package com.example.survey.service;
 
-import com.example.survey.Entities.Question;
-import com.example.survey.Exceptions.FieldNotFoundException;
-import com.example.survey.Repositories.CategoryRepository;
-import com.example.survey.Repositories.QuestionRepository;
+import com.example.survey.entities.Category;
+import com.example.survey.entities.Question;
+import com.example.survey.repository.CategoryRepository;
+import com.example.survey.repository.QuestionRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,22 +16,14 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SurveyGenerationHelper {
+public class SurveyQuestionGeneratorService {
 
     private final CategoryRepository categoryRepository;
     private final QuestionRepository questionRepository;
 
-    public Question addQuestion(Question question) {
-        return questionRepository.save(question);
-    }
-
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
-    }
-
-    public List<Question> getQuestions(long surveySize, String categoryName) throws FieldNotFoundException {
+    public List<Question> getQuestions(long surveySize, String categoryCode) {
         List<Question> surveyQuestions = new ArrayList<>();
-        List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryName);
+        List<Question> modifiableRepositoryCopy = getCategorizedQuestions(categoryCode);
         generateQuizQuestions(surveySize, surveyQuestions, modifiableRepositoryCopy);
 
         return surveyQuestions;
@@ -45,9 +37,10 @@ public class SurveyGenerationHelper {
         }
     }
 
-    private List<Question> getCategorizedQuestions(String categoryName) {
-        Long questionId = categoryRepository.findByName(categoryName).orElseThrow().getId();
-        return questionRepository.findAllByCategory(questionId);
+    public List<Question> getCategorizedQuestions(String categoryName) {
+        Category category = categoryRepository.findByCode(categoryName).orElseThrow();
+
+        return questionRepository.findAllByCategory(category);
     }
 
 }
