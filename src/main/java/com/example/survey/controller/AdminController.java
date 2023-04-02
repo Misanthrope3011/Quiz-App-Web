@@ -39,14 +39,15 @@ public class AdminController {
 
 	@PostMapping("/question/add")
 	public ResponseEntity<Question> addQuestionToDatabase(@RequestBody Question question) {
-		categoryService.getCategory(question.getCategory().getCode());
+		Category category = categoryService.getCategory(question.getCategory().getCode());
+		question.setCategory(category);
 
 		return ResponseEntity.ok(surveyService.addQuestion(question));
 	}
 
 	@PutMapping("/question/{id}/edit")
 	public ResponseEntity<Question> editQuestion(@PathVariable Long id, @RequestBody Question question) {
-		if(surveyService.getQuestionById(id).isPresent()) {
+		if (surveyService.getQuestionById(id).isPresent()) {
 			return ResponseEntity.ok(surveyService.addQuestion(question));
 		}
 		return ResponseEntity.notFound().build();
@@ -60,13 +61,13 @@ public class AdminController {
 	@DeleteMapping("/question/{id}/delete")
 	public ResponseEntity<List<Question>> deleteQuestion(@PathVariable Long id) {
 		surveyService.deleteQuestion(id);
+
 		return ResponseEntity.noContent().build();
 	}
 
-
 	@GetMapping("/question/{id}")
-	public ResponseEntity <Question>getQuestionById(@PathVariable Long id) {
-		if(surveyService.getQuestionById(id).isPresent()) {
+	public ResponseEntity<Question> getQuestionById(@PathVariable Long id) {
+		if (surveyService.getQuestionById(id).isPresent()) {
 			return ResponseEntity.ok(surveyService.getQuestionById(id).get());
 		}
 		return ResponseEntity.notFound().build();
