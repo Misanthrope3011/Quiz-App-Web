@@ -1,6 +1,5 @@
 package com.example.survey.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +20,7 @@ public class Question {
     private Long id;
 
     @NotNull
+    @Size(min = 5, max = 200)
     @Column(name = "qst_content")
     private String question;
 
@@ -29,7 +29,7 @@ public class Question {
     @Column(name = "qst_answer_A")
     private String answerA;
 
-    @Size(max = 200)
+    @Size(min = 5, max = 200)
     @NotBlank(message = "Answer 1 is mandatory")
     @Column(name = "qst_answer_B")
     private String answerB;
